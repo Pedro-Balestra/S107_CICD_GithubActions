@@ -1,7 +1,3 @@
-# S107_CICD_GithubActions
-
-[![CI Unittest](https://github.com/Pedro-Balestra/S107_CICD_GithubActions/actions/workflows/python-app.yml/badge.svg)](https://github.com/Pedro-Balestra/S107_CICD_GithubActions/actions/workflows/python-app.yml)
-
 <h1 align="center"> S107 - Git Actions </h1>
 <p>
   <img src="https://img.shields.io/static/v1?label=License&message=MIT&color=00bfff&style=plastic"/>
@@ -9,7 +5,10 @@
   <img src="https://img.shields.io/static/v1?label=LP&message=Python&color=daa520&style=plastic"/>
   
   <img src="https://img.shields.io/static/v1?label=IDE&message=VsCode&color=9acd32&style=plastic"/>
+  
 </p>
+
+[![CI Unittest](https://github.com/Pedro-Balestra/S107_CICD_GithubActions/actions/workflows/python-app.yml/badge.svg)](https://github.com/Pedro-Balestra/S107_CICD_GithubActions/actions/workflows/python-app.yml)
 
 ### :point_right: Tecnologias
 
