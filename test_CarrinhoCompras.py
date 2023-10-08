@@ -21,8 +21,12 @@ class TestCarrinhoCompras(unittest.TestCase):
             "(35) 9 7777-9874",
             "lucas.resende@ges.inatel.br",
         )
+
+        cliente3 = Cliente(3, "Wesley Marcos", "789.123.456-00", "(35) 9 7777-7777", "wesley.marcos@gec.inatel.br")
+
         self.carrinhoCl1 = CarrinhoCompras(cliente1)
         self.carrinhoCl2 = CarrinhoCompras(cliente2)
+        self.carrinhoCl3 = CarrinhoCompras(cliente3)
 
         # Balestra
         produtoCl1_1 = Produto(1, "Xbox Series X", "Microsoft", 4499.99, 5)
@@ -35,6 +39,7 @@ class TestCarrinhoCompras(unittest.TestCase):
         self.carrinhoCl1.adicionar_produto(produtoCl1_3)
         self.carrinhoCl1.adicionar_produto(produtoCl1_4)
 
+        # Lucas
         produtoCl2_1 = Produto(1, "Golf GTI MK8", "Volkswagen", 220000.00, 1)
         produtoCl2_2 = Produto(2, "Iphone 14", "Apple", 7499.99, 6)
         produtoCl2_3 = Produto(3, "Air Jordan", "Nike", 2799.99, 2)
@@ -46,6 +51,17 @@ class TestCarrinhoCompras(unittest.TestCase):
         self.carrinhoCl2.adicionar_produto(produtoCl2_2)
         self.carrinhoCl2.adicionar_produto(produtoCl2_3)
         self.carrinhoCl2.adicionar_produto(produtoCl2_4)
+
+        #Wesley
+        produtoCl3_1 = Produto(1, "PS5", "Sony", 4499.99, 2)
+        produtoCl3_2 = Produto(2, 'TV 4k 50"', "LG", 5499.99, 3)
+        produtoCl3_3 = Produto(3, "Home Theater", "Pioneer", 4999.99, 4)
+        produtoCl3_4 = Produto(4, "Ecosport", "Ford", 130000.00, 2)
+
+        self.carrinhoCl3.adicionar_produto(produtoCl3_1)
+        self.carrinhoCl3.adicionar_produto(produtoCl3_2)
+        self.carrinhoCl3.adicionar_produto(produtoCl3_3)
+        self.carrinhoCl3.adicionar_produto(produtoCl3_4)
 
     def test_calcular_total_Pedro_Equal(self):
         total_esperado = 4499.99 + 70000.0 + 1899.99 + 22000.0
@@ -79,6 +95,21 @@ class TestCarrinhoCompras(unittest.TestCase):
     def test_carrinho_Nvazio_Lucas(self):
         self.assertNotEqual(len(self.carrinhoCl3.produtos), 0)
 
+    def test_calcular_total_Wesley_Equal(self):
+        total_esperado = 4499.99 + 5499.99 + 4999.99 + 130000.0
+        self.assertEqual(self.carrinhoCl3.calcular_total(), total_esperado)
+
+    def test_calcular_total_Wesley_NotEqual(self):
+        total_Nesperado = 4499.99 + 5499.99 + 4999.99
+        self.assertNotEqual(self.carrinhoCl3.calcular_total(), total_Nesperado)
+
+    def test_adicionar_produto_Wesley(self):
+        produto = Produto(1, "PS5", "Sony", 4499.99, 2)
+        self.carrinhoCl3.adicionar_produto(produto)
+        self.assertIn(produto, self.carrinhoCl3.produtos)
+
+    def test_carrinho_Nvazio_Wesley(self):
+        self.assertNotEqual(len(self.carrinhoCl3.produtos),0)
 
 if __name__ == "__main__":
     # unittest.main()
