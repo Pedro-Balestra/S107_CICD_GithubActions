@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "carrinhocompraLucasSResende"
+version = "0.0.1"
+authors = [
+  { name = "Lucas", email = "lucas.resende@ges.inatel.com" }
+]
+
+description = "A small example package"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+homepage = "https://github.com/Pedro-Balestra/S107_CICD_GithubActions"
+bug-tracker = "https://github.com/Pedro-Balestra/S107_CICD_GithubActions"
+
