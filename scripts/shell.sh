@@ -10,4 +10,4 @@ notify-send "Notificação em paralelo rodando" &
 # Fim do trabalho
 echo "Teste finalizado"
 sudo apt-get install mailutils
-echo "Enviando o e-mail do trabalho S107" | mail -s "Trabalho S107" lucasresendesrs@gmail.com
+echo "Enviando o e-mail do trabalho S107" | mail -s "Trabalho S107" ${EMAIL}
