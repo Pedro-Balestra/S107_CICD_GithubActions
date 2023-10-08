@@ -63,7 +63,7 @@ jobs:
   notification:
     runs-on: ubuntu-latest
     env:
-      EMAIL_LIST: chris.souzalima@outlook.com
+      EMAIL_LIST: chris.souzalima@outlook.com, lucas.resende@ges.inatel.br, wesley.marcos@gec.inatel.br, pedro.balestra@gec.inatel.br
 
     steps:
       - uses: actions/checkout@v3
