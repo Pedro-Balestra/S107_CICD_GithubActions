@@ -5,7 +5,7 @@ FROM mantissoftware/jenkins-python3
 USER root
 
 #Use apk to add python3 and then start bootstrapping pip
-FROM ubuntu:latest
+
 RUN apt-get update
 RUN apt-get install -y python3-pip
 RUN python3 -m venv venv
