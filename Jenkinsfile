@@ -8,7 +8,6 @@ pipeline {
 
             steps {
                 echo 'Building...'
-                sh "pip --version"
                 sh "python --version"
                 sh '''
                    python setup.py install
