@@ -8,8 +8,8 @@ pipeline {
 
             steps {
                 echo 'Building...'
-                sh "python3 --version"
                 sh "pip --version"
+                sh "python --version"
                 sh '''
                    pip install requirements.txt
                    cd ${WORKSPACE}
