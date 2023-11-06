@@ -4,8 +4,6 @@ FROM mantissoftware/jenkins-python3
         #You need jenkins:lts-alpine instead of jenkins for apk among others
 USER root
 
-RUN python -m pip install --upgrade pip
-RUN pip install -r requirements.txt
 #Use apk to add python3 and then start bootstrapping pip
 RUN apk add python3 \
         && curl -O https://bootstrap.pypa.io/get-pip.py \
@@ -17,7 +15,8 @@ RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
         if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
         rm -r /root/.cache 
 
-RUN pip install requirements.txt
+RUN python -m pip install --upgrade pip
+RUN pip install -r requirements.txt
 RUN apk add pkgconf #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
 RUN apk add build-base #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
 RUN apk add python3-dev #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
