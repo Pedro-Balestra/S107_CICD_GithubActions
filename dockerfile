@@ -4,6 +4,8 @@ FROM mantissoftware/jenkins-python3
         #You need jenkins:lts-alpine instead of jenkins for apk among others
 USER root
 
+RUN python -m pip install --upgrade pip
+RUN pip install -r requirements.txt
 #Use apk to add python3 and then start bootstrapping pip
 RUN apk add python3 \
         && curl -O https://bootstrap.pypa.io/get-pip.py \
