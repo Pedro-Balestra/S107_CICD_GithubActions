@@ -7,7 +7,7 @@ USER root
 #Use apk to add python3 and then start bootstrapping pip
 RUN apk add python3 \
         && curl -O https://bootstrap.pypa.io/get-pip.py \
-        && python3 get-pip.py
+        && python3 get-pip.py \
         #I needed python&pip for ansible, which itself needs some more stuff.
 
 #To have a clean environment with the typical aliases
