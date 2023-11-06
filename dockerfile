@@ -1,16 +1,18 @@
-# Define nossa imagem base
+# Use a imagem mantissoftware/jenkins-python3 como base
 FROM mantissoftware/jenkins-python3
 
-        #You need jenkins:lts-alpine instead of jenkins for apk among others
-USER root
-
-#Use apk to add python3 and then start bootstrapping pip
-
+# Atualize a lista de pacotes
 RUN apt-get update
+
+# Instale o pip
 RUN apt-get install -y python3-pip
-RUN python3 -m venv venv
-RUN . venv/bin/activate
+
+# Copie o arquivo requirements.txt para o diretório de trabalho no contêiner
+COPY requirements.txt .
+
+# Instale as dependências listadas no arquivo requirements.txt
 RUN pip install -r requirements.txt
+
 
 #change back to user jenkins
 USER  jenkins
