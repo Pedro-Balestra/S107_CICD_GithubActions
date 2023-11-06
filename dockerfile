@@ -1,6 +1,7 @@
-# Use a imagem mantissoftware/jenkins-python3 como base
+# Define nossa imagem base
 FROM mantissoftware/jenkins-python3
 
+        #You need jenkins:lts-alpine instead of jenkins for apk among others
 # Atualize a lista de pacotes
 RUN apt-get update
 
@@ -12,7 +13,6 @@ COPY requirements.txt .
 
 # Instale as dependências listadas no arquivo requirements.txt
 RUN pip install -r requirements.txt
-
 
 #change back to user jenkins
 USER  jenkins
