@@ -4,26 +4,14 @@ pipeline {
 
     stages {
 
-        stage('Setup') {
-            steps {
-                echo 'Setting up...'
-                sh '''
-                   python -m venv env
-                   source env/bin/activate
-                   python -m pip install --upgrade pip
-                   '''
-            }
-        }
-
         stage('Build'){
 
             steps {
                 echo 'Building...'
+                sh "pip --version"
+                sh "python --version"
                 sh '''
-                   source env/bin/activate
-                   python --version
-                   cd Aula-GitHub-Actions
-                   python setup.py install
+                   pip install requirements.txt
                    cd ${WORKSPACE}
                    ls
                    '''
@@ -38,8 +26,7 @@ pipeline {
             steps {
                 echo 'Testing...'
                 sh '''
-                   source env/bin/activate
-                   python setup.py test
+                   python -m unittest
                    '''
             }
 
