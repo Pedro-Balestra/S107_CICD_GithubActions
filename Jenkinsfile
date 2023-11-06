@@ -11,11 +11,12 @@ pipeline {
                 sh "pip --version"
                 sh "python --version"
                 sh '''
+                   python setup.py install
                    pip install requirements.txt
                    cd ${WORKSPACE}
                    ls
                    '''
-                   archiveArtifacts '../target/'
+                   archiveArtifacts 'dist/'
 
             }
 
@@ -26,7 +27,7 @@ pipeline {
             steps {
                 echo 'Testing...'
                 sh '''
-                   python -m unittest
+                   python setup.py test
                    '''
             }
 
