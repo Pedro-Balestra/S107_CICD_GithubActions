@@ -2,11 +2,19 @@ pipeline {
     agent none
 
     stages {
-        
         stage('Build') {
-            agent { dockerContainer true }
             steps {
                 echo 'Building...'
+                script {
+                    docker.build('carrinho-de-compras:latest')
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Testing...'
+                sh 'docker run carrinho-de-compras:latest'
             }
         }
 
