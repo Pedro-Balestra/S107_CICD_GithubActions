@@ -60,9 +60,9 @@ pipeline {
                 // Build your project here
                 sh 'echo "Building..."'
                 sh "python3 --version"
-               // sh "pip install --version"
-                sh "pip install -r requirements.txt"
-                //archiveArtifacts 'target/'
+                //sh "pip install --version"
+                //sh "pip install -r requirements.txt"
+                archiveArtifacts 'target/'
             }
         }
 
