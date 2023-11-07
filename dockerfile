@@ -1,21 +1,17 @@
-# Define nossa imagem base
-FROM mantissoftware/jenkins-python3
+# Define a imagem base
+FROM python:3.9-slim
 
-        #You need jenkins:lts-alpine instead of jenkins for apk among others
-USER root
-
-#Use apk to add python3 and then start bootstrapping pip
+# Define o diretório de trabalho dentro do contêiner
 WORKDIR /app
 
-# Copie os arquivos de requisitos se houver
+# Copia o arquivo requirements.txt para o diretório de trabalho
+COPY requirements.txt .
+
+# Instala as dependências do projeto
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia o código fonte da aplicação para o diretório de trabalho
 COPY . .
 
-# Atualize pip
-RUN python -m ensurepip --upgrade
-
-# Crie um ambiente virtual e instale as dependências
-RUN python -m venv venv && \
-    . venv/bin/activate && \
-    pip install --no-cache-dir -r requirements.txt
-#change back to user jenkins
-USER  jenkins
+# Define o comando padrão para executar a aplicação
+CMD [ "python", "test_CarrinhoCompras.py" ]
