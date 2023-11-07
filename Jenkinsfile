@@ -8,9 +8,10 @@ pipeline {
 
             steps {
                 echo 'Building...'
-                sh "pip --version"
+                sh "pip install --upgrade pip"
                 sh "python --version"
-                sh '''pip install --upgrade pip
+                sh '''
+                    pip --version
                     pip install -r requirements.txt
                     cd ${WORKSPACE}
                     ls
