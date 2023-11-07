@@ -5,9 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building...'
-                script {
-                    docker.build('carrinho-de-compras:latest')
-                }
+                sh 'docker build -t carrinho-de-compras:latest .'
             }
         }
 
