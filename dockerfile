@@ -5,7 +5,6 @@ FROM mantissoftware/jenkins-python3
 USER root
 RUN apt-get update
 RUN apt-get update && apt-get install -y \
-php5-mcrypt \
 python-pip
 RUN python3 -m venv venv
 RUN . venv/bin/activate
