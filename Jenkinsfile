@@ -58,7 +58,8 @@ pipeline {
         stage('Build') {
             steps {
                 // Build your project here
-                sh 'echo "Build step: Place your build commands here"'
+                sh 'echo "Building..."'
+                sh "python --version"
             }
         }
 
