@@ -27,6 +27,10 @@ FROM dmantissoftware/jenkins-python3:latest
 # Atualize o sistema e instale o Python3 e o pip
 RUN apt-get update && apt-get install -y python3 python3-pip
 
+RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+         if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+         rm -r /root/.cache 
+
 # Instale a biblioteca de e-mail mailutils
 RUN apt-get install -y mailutils
 
