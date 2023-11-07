@@ -62,7 +62,7 @@ pipeline {
                 sh "python3 --version"
                 //sh "pip install --version"
                 //sh "pip install -r requirements.txt"
-                archiveArtifacts 'target/'
+                archiveArtifacts '../'
             }
         }
 
