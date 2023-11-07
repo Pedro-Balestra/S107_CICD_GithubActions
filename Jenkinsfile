@@ -1,13 +1,12 @@
 pipeline {
-    agent { dockerfile true }
+    agent { 
+        node {
+        checkout scm
+        docker.build("carrinho-de-compras") 
+        }
+     }
 
     stages {
-        stage('Build') {
-            steps {
-                echo 'Building...'
-                docker.build('carrinho-de-compras')
-            }
-        }
 
         stage('Test') {
             steps {
@@ -21,7 +20,7 @@ pipeline {
                 emailext (
                     subject: 'Assunto do e-mail',
                     body: 'Corpo do e-mail',
-                    to: 'lucas.resende@ges.inatel.br',
+                    to: 'lucas.resende@ges.inatel.net',
                     attachLog: true
                 )
             }
