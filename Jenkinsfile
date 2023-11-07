@@ -38,12 +38,6 @@
 
 pipeline {
     agent any
-    tools {
-        nodejs 'nodejs'
-        python3 'python3'
-    }
-    environment{
-
     }
     stages {
         stage('build'){
@@ -52,7 +46,7 @@ pipeline {
                 echo 'Preparing'
 
                 sh 'python3 --version'
-                sh 'pip3 install -U pytest'
+                sh 'pip3 install -U unittest'
                 script{
                     // pull git tag and add to a variable to set the build info - {tag#build_no}
                     GIT_TAG = sh(script: "git describe --abbrev=0 --tags", returnStdout: true).trim()
