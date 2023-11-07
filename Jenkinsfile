@@ -1,21 +1,95 @@
-ipeline {
-    agent any
+// stages {
 
+//         stage('Setup') {
+//             steps {
+//                 echo 'Setting up...'
+//                 sh '''
+//                    python -m venv env
+//                    source env/bin/activate
+//                    python -m pip install --upgrade pip
+//                    '''
+//             }
+//         }
+
+//         stage('Build'){
+
+//             steps {
+//                 echo 'Building...'
+//                 sh '''
+//                    source env/bin/activate
+//                    python --version
+//                    python setup.py install
+//                    cd ${WORKSPACE}
+//                    ls
+//                    '''
+//                    archiveArtifacts '../target/'
+
+//             }
+
+
+//             steps {
+//                 echo 'Testing...'
+//                 sh '''
+//                    source env/bin/activate
+//                    python setup.py test
+//                    '''
+//             }
+
+
+pipeline {
+    agent any
+    tools {
+        nodejs 'nodejs'
+        python3 'python3'
+    }
+    environment{
+
+    }
     stages {
-        stage('Checkout') {
-            steps {
-                checkout([$class: 'GitSCM', branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/DevOlabodeM/pytest-intro-vs-M']]])
+        stage('build'){
+
+            steps{
+                echo 'Preparing'
+
+                sh 'python3 --version'
+                sh 'pip3 install -U pytest'
+                script{
+                    // pull git tag and add to a variable to set the build info - {tag#build_no}
+                    GIT_TAG = sh(script: "git describe --abbrev=0 --tags", returnStdout: true).trim()
+                    sh 'echo ${GIT_TAG}'
+                    currentBuild.displayName = "${GIT_TAG}#${BUILD_NUMBER}"
+                }
             }
         }
-        stage('Build') {
+
+        stage('Checkout'){
             steps {
-                git branch: 'main', url: 'https://github.com/DevOlabodeM/pytest-intro-vs-M'
-                sh 'python3 ops.py'
+                echo 'Checking out code from repo'
+                checkout scm
             }
         }
-        stage('Test') {
+
+        stage('install'){
+            steps{
+                echo 'installing libraries'
+                sh 'pip3 install -r requirements.txt'
+            }
+        }
+
+        stage('test'){
             steps {
-                sh 'python3 -m pytest'
+                echo 'running tests'
+                sh 'pytest'
+            }
+            post{
+                success{
+                    bitbucketStatusNotify(buildState: 'SUCCESSFUL')
+                    office365ConnectorSend message: "The build was successfull", status: "Success", webhookUrl: "${env.HOOK}"
+                }
+                failure{
+                    bitbucketStatusNotify(buildState: 'FAILED')
+                    office365ConnectorSend message: "The build has failed", status: "Failure", webhookUrl: "${env.HOOK}"
+                }
             }
         }
     }
