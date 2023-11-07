@@ -1,22 +1,40 @@
+# FROM dmantissoftware/jenkins-python3:latest
+
+#         #You need jenkins:lts-alpine instead of jenkins for apk among others
+# USER root
+
+# RUN apt-get update && apt-get install -y python3 && curl -O https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py
+
+# #Use apk to add python3 and then start bootstrapping pip
+#         #I needed python&pip for ansible, which itself needs some more stuff.
+
+# #To have a clean environment with the typical aliases
+# RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+#         if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+#         rm -r /root/.cache 
+
+# RUN apt-get install -y pip install requirements.txt
+# # RUN apk add pkgconf #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
+# # RUN apk add build-base #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
+# # RUN apk add python3-dev #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
+
+# #change back to user jenkins
+# USER  jenkins
+
+# Use a imagem base dmantissoftware/jenkins-python3:latest
 FROM dmantissoftware/jenkins-python3:latest
 
-        #You need jenkins:lts-alpine instead of jenkins for apk among others
-USER root
+# Atualize o sistema e instale o Python3 e o pip
+RUN apt-get update && apt-get install -y python3 python3-pip
 
-RUN apt-get update && apt-get install -y python3 && curl -O https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py
+# Instale a biblioteca de e-mail mailutils
+RUN apt-get install -y mailutils
 
-#Use apk to add python3 and then start bootstrapping pip
-        #I needed python&pip for ansible, which itself needs some more stuff.
+# Defina um diretório de trabalho
+WORKDIR /app
 
-#To have a clean environment with the typical aliases
-RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-        if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-        rm -r /root/.cache 
+# Copie os arquivos do projeto para o contêiner
+COPY . /app
 
-RUN apt-get install -y pip install requirements.txt
-# RUN apk add pkgconf #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
-# RUN apk add build-base #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
-# RUN apk add python3-dev #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
-
-#change back to user jenkins
-USER  jenkins
+# Comando padrão para execução
+CMD ["python3", "app.py"]

@@ -1,51 +1,79 @@
-pipeline {
+// pipeline {
 
+//     agent any
+
+//     stages {
+
+//         stage('Build'){
+
+//             steps {
+//                 echo 'Building...'
+//                 sh "pip install --upgrade pip"
+//                 sh "python --version"
+//                 sh '''
+//                     pip --version
+//                     pip install -r requirements.txt
+//                     cd ${WORKSPACE}
+//                     ls
+//                     '''
+//                 archiveArtifacts '../target/'
+
+//             }
+
+//         }
+
+//         stage('Test'){
+
+//             steps {
+//                 echo 'Testing...'
+//                 sh '''
+//                    python testCarrinhoCompras.py
+//                    '''
+//             }
+
+//         }
+
+//         stage('Notification'){
+
+//             steps {
+//                 echo 'Notification...'
+//                 sh '''
+//                    cd scripts
+//                    chmod 775 ./jenkins.sh
+//                    ./jenkins.sh
+//                    '''          
+//             }
+
+//         }
+
+//     }
+
+// }
+
+
+pipeline {
     agent any
 
     stages {
-
-        stage('Build'){
-
+        stage('Build') {
             steps {
-                echo 'Building...'
-                sh "pip install --upgrade pip"
-                sh "python --version"
-                sh '''
-                    pip --version
-                    pip install -r requirements.txt
-                    cd ${WORKSPACE}
-                    ls
-                    '''
-                archiveArtifacts '../target/'
-
+                // Build your project here
+                sh 'echo "Build step: Place your build commands here"'
             }
-
         }
 
-        stage('Test'){
-
+        stage('Tests') {
             steps {
-                echo 'Testing...'
-                sh '''
-                   python testCarrinhoCompras.py
-                   '''
+                // Run your tests here
+                sh 'echo "Tests step: Place your test commands here"'
             }
-
         }
 
-        stage('Notification'){
-
+        stage('Notifications') {
             steps {
-                echo 'Notification...'
-                sh '''
-                   cd scripts
-                   chmod 775 ./jenkins.sh
-                   ./jenkins.sh
-                   '''          
+                // Add notification commands here (e.g., sending emails)
+                sh 'echo "Notifications step: Place your notification commands here"'
             }
-
         }
-
     }
-
 }
