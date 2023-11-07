@@ -1,31 +1,36 @@
-pipeline {
-    agent any
+stages {
 
-    stages {
-        stage('Build') {
+        stage('Setup') {
+            steps {
+                echo 'Setting up...'
+                sh '''
+                   python -m venv env
+                   source env/bin/activate
+                   python -m pip install --upgrade pip
+                   '''
+            }
+        }
+
+        stage('Build'){
+
             steps {
                 echo 'Building...'
-                sh 'docker build -t carrinho-de-compras:latest .'
-            }
-        }
+                sh '''
+                   source env/bin/activate
+                   python --version
+                   python setup.py install
+                   cd ${WORKSPACE}
+                   ls
+                   '''
+                   archiveArtifacts '../target/'
 
-        stage('Test') {
+            }
+
+
             steps {
                 echo 'Testing...'
-                sh 'docker run carrinho-de-compras:latest'
+                sh '''
+                   source env/bin/activate
+                   python setup.py test
+                   '''
             }
-        }
-
-        stage('Notification') {
-            steps {
-                emailext (
-                    subject: 'Assunto do e-mail',
-                    body: 'Corpo do e-mail',
-                    to: 'lucas.resende@ges.inatel.net',
-                    attachLog: true
-                )
-            }
-        }
-
-    }
-}

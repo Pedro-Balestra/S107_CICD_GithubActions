@@ -1,17 +1,23 @@
-# Define a imagem base
-FROM python:3.9-slim
+FROM mantissoftware/jenkins-python3
 
-# Define o diretório de trabalho dentro do contêiner
-WORKDIR /app
+        #You need jenkins:lts-alpine instead of jenkins for apk among others
+USER root
 
-# Copia o arquivo requirements.txt para o diretório de trabalho
-COPY requirements.txt .
+#Use apk to add python3 and then start bootstrapping pip
+RUN apk add python3 \
+        && curl -O https://bootstrap.pypa.io/get-pip.py \
+        && python3 get-pip.py
+        #I needed python&pip for ansible, which itself needs some more stuff.
 
-# Instala as dependências do projeto
-RUN pip install --no-cache-dir -r requirements.txt
+#To have a clean environment with the typical aliases
+RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+        if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+        rm -r /root/.cache 
 
-# Copia o código fonte da aplicação para o diretório de trabalho
-COPY . .
+RUN pip install requirements.txt
+RUN apk add pkgconf #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
+RUN apk add build-base #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
+RUN apk add python3-dev #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
 
-# Define o comando padrão para executar a aplicação
-CMD [ "python", "test_CarrinhoCompras.py" ]
+#change back to user jenkins
+USER  jenkins
