@@ -59,7 +59,7 @@ pipeline {
             steps {
                 // Build your project here
                 sh 'echo "Building..."'
-                sh "python --version"
+                sh "python3 --version"
             }
         }
 
