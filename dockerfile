@@ -5,12 +5,17 @@ FROM mantissoftware/jenkins-python3
 USER root
 
 #Use apk to add python3 and then start bootstrapping pip
-RUN pip install --upgrade pip
-COPY ./requirements.txt .
-RUN pip install -r requirements.txt
-RUN apk add pkgconf #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
-RUN apk add build-base #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
-RUN apk add python3-dev #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
+WORKDIR /app
 
+# Copie os arquivos de requisitos se houver
+COPY requirements.txt ./
+
+# Atualize pip
+RUN python -m ensurepip --upgrade
+
+# Crie um ambiente virtual e instale as dependências
+RUN python -m venv venv && \
+    . venv/bin/activate && \
+    pip install --no-cache-dir -r requirements.txt
 #change back to user jenkins
 USER  jenkins
