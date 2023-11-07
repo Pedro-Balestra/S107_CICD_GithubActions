@@ -59,8 +59,10 @@ pipeline {
             steps {
                 // Build your project here
                 sh 'echo "Building..."'
-                sh 'apt-get update'
-                sh 'apt-get install -y python3 python3-pip'
+                sh 'pip install -r requirements.txt'
+                sh 'python setup.py sdist bdist_whee'
+                sh 'pythin --version'
+                //sh 'apt-get install -y python3 python3-pip'
                 //sh "python3 --version"
                 //sh "pip install --version"
                 //sh "pip install -r requirements.txt"
