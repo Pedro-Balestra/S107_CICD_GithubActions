@@ -8,10 +8,10 @@ pipeline {
 
             steps {
                 echo 'Building...'
-                sh '''
-                    pip --version"
-                    python --version
-                    pip install requirements.txt
+                sh "pip --version"
+                sh "python --version"
+                sh '''pip install --upgrade pip
+                    pip install -r requirements.txt
                     cd ${WORKSPACE}
                     ls
                     '''
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 echo 'Testing...'
                 sh '''
-                   python -m unittest
+                   python testCarrinhoCompras.py
                    '''
             }
 
