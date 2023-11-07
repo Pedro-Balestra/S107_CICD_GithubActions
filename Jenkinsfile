@@ -1,50 +1,33 @@
 pipeline {
-
     agent any
 
     stages {
-
-        stage('Build'){
-
+        stage('Build') {
             steps {
                 echo 'Building...'
-                sh "pip --version"
-                sh "python --version"
-                sh '''
-                   pip install requirements.txt
-                   cd ${WORKSPACE}
-                   ls
-                   '''
-                   archiveArtifacts '../target/'
-
+                script {
+                    docker.build('carrinho-de-compras', '-f Dockerfile .')
+                }
             }
-
         }
 
-        stage('Test'){
-
+        stage('Test') {
             steps {
                 echo 'Testing...'
-                sh '''
-                   python -m unittest
-                   '''
+                sh 'docker run carrinho-de-compras:latest'
             }
-
         }
 
-        stage('Notification'){
-
+        stage('Notification') {
             steps {
-                echo 'Notification...'
-                sh '''
-                   cd scripts
-                   chmod 775 ./jenkins.sh
-                   ./jenkins.sh
-                   '''          
+                emailext (
+                    subject: 'Assunto do e-mail',
+                    body: 'Corpo do e-mail',
+                    to: 'lucas.resende@ges.inatel.br',
+                    attachLog: true
+                )
             }
-
         }
 
     }
-
 }
