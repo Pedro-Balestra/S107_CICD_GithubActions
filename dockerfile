@@ -8,7 +8,7 @@ USER root
 WORKDIR /app
 
 # Copie os arquivos de requisitos se houver
-COPY requirements.txt ./
+COPY . .
 
 # Atualize pip
 RUN python -m ensurepip --upgrade
