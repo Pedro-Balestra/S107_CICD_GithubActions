@@ -8,14 +8,14 @@ pipeline {
 
             steps {
                 echo 'Building...'
-                sh "pip --version"
-                sh "python --version"
                 sh '''
-                   pip install requirements.txt
-                   cd ${WORKSPACE}
-                   ls
-                   '''
-                   archiveArtifacts '../target/'
+                    pip --version"
+                    python --version
+                    pip install requirements.txt
+                    cd ${WORKSPACE}
+                    ls
+                    '''
+                archiveArtifacts '../target/'
 
             }
 
