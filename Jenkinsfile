@@ -1,36 +1,22 @@
-stages {
+ipeline {
+    agent any
 
-        stage('Setup') {
+    stages {
+        stage('Checkout') {
             steps {
-                echo 'Setting up...'
-                sh '''
-                   python -m venv env
-                   source env/bin/activate
-                   python -m pip install --upgrade pip
-                   '''
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/DevOlabodeM/pytest-intro-vs-M']]])
             }
         }
-
-        stage('Build'){
-
+        stage('Build') {
             steps {
-                echo 'Building...'
-                sh '''
-                   source env/bin/activate
-                   python --version
-                   python setup.py install
-                   cd ${WORKSPACE}
-                   ls
-                   '''
-                   archiveArtifacts '../target/'
-
+                git branch: 'main', url: 'https://github.com/DevOlabodeM/pytest-intro-vs-M'
+                sh 'python3 ops.py'
             }
-
-
+        }
+        stage('Test') {
             steps {
-                echo 'Testing...'
-                sh '''
-                   source env/bin/activate
-                   python setup.py test
-                   '''
+                sh 'python3 -m pytest'
             }
+        }
+    }
+}
