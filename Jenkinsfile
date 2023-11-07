@@ -60,7 +60,7 @@ pipeline {
                 // Build your project here
                 sh 'echo "Building..."'
                 sh "python3 --version"
-                sh "pip install --upgrade"
+                sh "pip install --version"
                 // sh "pip3 install -r requirements.txt"
                 //archiveArtifacts 'target/'
             }
