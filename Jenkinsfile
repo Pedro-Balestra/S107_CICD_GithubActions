@@ -1,12 +1,13 @@
 pipeline {
-    agent { 
-        node {
-        checkout scm
-        docker.build("carrinho-de-compras") 
-        }
-     }
+    agent { dockerfile true }
 
     stages {
+        stage('Build') {
+            steps {
+                echo 'Building...'
+                docker.build('carrinho-de-compras')
+            }
+        }
 
         stage('Test') {
             steps {
