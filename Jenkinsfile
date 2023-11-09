@@ -59,7 +59,8 @@ pipeline {
             steps {
                 // Build your project here
                 sh 'echo "Building..."'
-                sh 'python3 -m pip install --upgrade pip'
+                sh'python -m ensurepip --upgrade'
+                // sh 'python3 -m pip install --upgrade pip'
                 // sh 'python setup.py sdist bdist_whee'
                 sh 'python3 --version'
                 //sh 'apt-get install -y python3 python3-pip'
