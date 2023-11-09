@@ -52,8 +52,9 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+USER root
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gcc
+    apt-get install -y python3-pip
 RUN apt install python3-<pip>
 RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
         if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
@@ -61,13 +62,13 @@ RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
 COPY requirements.txt .
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
 
+USER jenkins
+# # final stage
+# FROM dmantissoftware/jenkins-python3:latest
 
-# final stage
-FROM dmantissoftware/jenkins-python3:latest
+# WORKDIR /app
 
-WORKDIR /app
+# COPY --from=builder /app/wheels /wheels
+# COPY --from=builder /app/requirements.txt .
 
-COPY --from=builder /app/wheels /wheels
-COPY --from=builder /app/requirements.txt .
-
-RUN pip install --no-cache /wheels/*
+# RUN pip install --no-cache /wheels/*
