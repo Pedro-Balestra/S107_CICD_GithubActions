@@ -22,23 +22,48 @@
 # USER  jenkins
 
 # Use a imagem base dmantissoftware/jenkins-python3:latest
-FROM dmantissoftware/jenkins-python3:latest
+# FROM dmantissoftware/jenkins-python3:latest
 
-# Atualize o sistema e instale o Python3 e o pip
-RUN apt-get update && apt-get install -y python3 python3-pip
+# # Atualize o sistema e instale o Python3 e o pip
+# RUN apt-get update && apt-get install -y python3 python3-pip
 
-RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-         if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-         rm -r /root/.cache 
+# RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+#          if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+#          rm -r /root/.cache 
 
-# Instale a biblioteca de e-mail mailutils
-RUN apt-get install -y mailutils
+# # Instale a biblioteca de e-mail mailutils
+# RUN apt-get install -y mailutils
 
-# Defina um diretório de trabalho
+# # Defina um diretório de trabalho
+# WORKDIR /app
+
+# # Copie os arquivos do projeto para o contêiner
+# COPY . /app
+
+# # Comando padrão para execução
+# CMD ["python3", "app.py"]
+
+# temp stage
+FROM dmantissoftware/jenkins-python3:latest as builder
+
 WORKDIR /app
 
-# Copie os arquivos do projeto para o contêiner
-COPY . /app
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# Comando padrão para execução
-CMD ["python3", "app.py"]
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gcc
+
+COPY requirements.txt .
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
+
+
+# final stage
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY --from=builder /app/wheels /wheels
+COPY --from=builder /app/requirements.txt .
+
+RUN pip install --no-cache /wheels/*
