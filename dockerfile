@@ -59,7 +59,7 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.t
 
 
 # final stage
-FROM python:3.9-slim
+FROM dmantissoftware/jenkins-python3:latest
 
 WORKDIR /app
 
