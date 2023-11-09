@@ -3,7 +3,7 @@ FROM dmantissoftware/jenkins-python3:latest
         #You need jenkins:lts-alpine instead of jenkins for apk among others
 USER root
 
-RUN apt-get update && apt-get install -y python3 
+RUN apt-get update && apt-get install -y python3 && python -m ensurepip
 
 #Use apk to add python3 and then start bootstrapping pip
         #I needed python&pip for ansible, which itself needs some more stuff.
