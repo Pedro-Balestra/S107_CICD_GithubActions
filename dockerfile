@@ -47,7 +47,7 @@
 FROM dmantissoftware/jenkins-python3:latest as builder
 
 WORKDIR /app
-RUN apt-get python3 -m venv venv
+
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
