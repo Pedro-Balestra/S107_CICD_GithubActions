@@ -1,5 +1,5 @@
 # Use a imagem oficial do Jenkins
-FROM jenkins/jenkins:lts
+FROM jenkins/jenkins-python:latest
 
 # Mude para o usuário root para instalar o Python e o pip
 USER root
