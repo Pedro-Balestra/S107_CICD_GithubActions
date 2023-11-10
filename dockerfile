@@ -2,7 +2,7 @@
 FROM jenkins/jenkins:lts-jdk11
 
 # Defina variáveis de ambiente
-ENV PYTHONUNBUFFERED=1
+#ENV PYTHONUNBUFFERED=1
 
 # Execute comandos para instalar o Python 3 e o pip
 USER root
