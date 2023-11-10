@@ -162,6 +162,43 @@ pipeline {
 //     }
 // }
 
+// pipeline {
+//     agent any
+
+//     stages {
+//         stage('Build') {
+//             steps {
+//                 sh '''
+//                 python3 -m venv venv
+//                 . venv/bin/activate
+//                 pip install --upgrade pip
+//                 pip install -r requirements.txt
+//                 python -V
+//                 pip -V
+//                 '''
+//             }
+//         }
+
+//         stage('Test') {
+//             steps {
+//                 sh '''
+//                 . venv/bin/activate
+//                 python teste_carrinhoCompras.py
+//                 '''
+//             }
+//         }
+//     }
+
+//     post {
+//         always {
+//             mail to: 'lucas.resende@ges.inatel.br',
+//                  subject: "Resultado dos testes: ${currentBuild.fullDisplayName}",
+//                  body: "Verifique o console de saída em ${env.BUILD_URL} para detalhes."
+//         }
+//     }
+// }
+
+
 pipeline {
     agent any
 
@@ -191,7 +228,7 @@ pipeline {
 
     post {
         always {
-            mail to: 'lucas.resende@ges.inatel.br',
+            mail to: 'email1@example.com,email2@example.com',
                  subject: "Resultado dos testes: ${currentBuild.fullDisplayName}",
                  body: "Verifique o console de saída em ${env.BUILD_URL} para detalhes."
         }

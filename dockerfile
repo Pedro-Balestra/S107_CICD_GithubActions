@@ -1,18 +1,42 @@
+# # Use a imagem base do Jenkins com JDK 11
+# FROM jenkins/jenkins:lts-jdk11
+
+# # Defina variáveis de ambiente
+# #ENV PYTHONUNBUFFERED=1
+
+# # Execute comandos para instalar o Python 3 e o pip
+# USER root
+# RUN apt-get install -y wget
+
+# RUN wget --no-verbose -O /tmp/Python-3.9.1.tgz https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz
+
+# RUN apk update && apk install -y python3 python3-pip 
+
+# # Volte para o usuário jenkins
+# USER jenkins
+
+
+
 # Use a imagem base do Jenkins com JDK 11
 FROM jenkins/jenkins:lts-jdk11
 
 # Defina variáveis de ambiente
-#ENV PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED=1
 
-# Execute comandos para instalar o Python 3 e o pip
+# Execute comandos para instalar as ferramentas necessárias e o Python 3.9.1
 USER root
-RUN apk update && apk install -y python3 python3-pip 
+RUN apt-get update && \
+    apt-get install -y wget build-essential libssl-dev zlib1g-dev && \
+    wget --no-verbose -O /tmp/Python-3.9.1.tgz https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz && \
+    tar -xf /tmp/Python-3.9.1.tgz -C /tmp && \
+    cd /tmp/Python-3.9.1 && \
+    ./configure && \
+    make && \
+    make install && \
+    rm -rf /var/lib/apt/lists/* /tmp/Python-3.9.1*
 
 # Volte para o usuário jenkins
 USER jenkins
-
-
-
 
 
 
