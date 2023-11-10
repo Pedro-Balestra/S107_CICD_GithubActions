@@ -1,25 +1,65 @@
-FROM dmantissoftware/jenkins-python3:latest
+# Use a imagem base Jenkins LTS com JDK 11
+FROM jenkins/jenkins:lts-jdk11
 
-        #You need jenkins:lts-alpine instead of jenkins for apk among others
+# Defina o usuário como root para executar comandos de instalação
 USER root
 
-RUN apt-get update && apt-get install -y python3 && python -m ensurepip
+# Atualize o sistema e instale as dependências
+RUN apt-get update && apt-get install -y wget
 
-#Use apk to add python3 and then start bootstrapping pip
-        #I needed python&pip for ansible, which itself needs some more stuff.
+# Instale o Python 3
+RUN apt-get install -y python3
 
-#To have a clean environment with the typical aliases
-RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-        if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-        rm -r /root/.cache 
+# Atualize o pip
+RUN python3 -m pip install --upgrade pip
 
-RUN apt-get install -y pip install requirements.txt
-# RUN apk add pkgconf #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
-# RUN apk add build-base #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
-# RUN apk add python3-dev #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
+# Define variáveis de ambiente para o Python
+ENV PYTHON_HOME /usr/bin
+ENV PATH $PYTHON_HOME:$PATH
 
-#change back to user jenkins
-USER  jenkins
+# Defina uma variável de ambiente MAVEN_HOME que aponta para o local do Maven
+ENV MAVEN_HOME /opt/maven
+
+# Baixe e instale o Apache Maven
+RUN wget --no-verbose -O /tmp/apache-maven-3.9.1-bin.tar.gz https://dlcdn.apache.org/maven/maven-3/3.9.1/binaries/apache-maven-3.9.1-bin.tar.gz
+RUN tar xzf /tmp/apache-maven-3.9.1-bin.tar.gz -C /opt/
+RUN ln -s /opt/apache-maven-3.9.1 /opt/maven
+RUN ln -s /opt/maven/bin/mvn /usr/local/bin
+RUN rm -f /tmp/apache-maven-3.9.1-bin.tar.gz
+
+# Chown: altera as permissões da pasta Maven para o usuário Jenkins
+RUN chown -R jenkins:jenkins /opt/maven
+
+# Instala o utilitário 'mailutils'
+RUN apt-get install -y mailutils
+
+# Limpe arquivos baixados com apt-get
+RUN apt-get clean
+
+# Volte a usar o usuário Jenkins
+USER jenkins
+
+
+
+# USER root
+
+# RUN apt-get update && apt-get install -y python3 && python -m ensurepip
+
+# #Use apk to add python3 and then start bootstrapping pip
+#         #I needed python&pip for ansible, which itself needs some more stuff.
+
+# #To have a clean environment with the typical aliases
+# RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+#         if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+#         rm -r /root/.cache 
+
+# RUN apt-get install -y pip install requirements.txt
+# # RUN apk add pkgconf #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
+# # RUN apk add build-base #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
+# # RUN apk add python3-dev #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
+
+# #change back to user jenkins
+# USER  jenkins
 
 # Use a imagem base dmantissoftware/jenkins-python3:latest
 # FROM dmantissoftware/jenkins-python3:latest

@@ -59,14 +59,14 @@ pipeline {
             steps {
                 // Build your project here
                 sh 'echo "Building..."'
-                sh 'python3 -m venv venv'
+                // sh 'python3 -m venv venv'
                 // sh 'python3 -m ensurepip'
                 //sh'python3 -m ensurepip --upgrade'
                 // sh 'python setup.py sdist bdist_whee'
                 sh 'python3 --version'
                 //sh 'apt-get install -y python3 python3-pip'
                 //sh "python3 --version"
-                //sh "pip --version"
+                sh "pip --version"
                 sh "pip install -r requirements.txt"
                 //archiveArtifacts '/app'
             }
