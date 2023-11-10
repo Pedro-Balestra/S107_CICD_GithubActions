@@ -1,5 +1,5 @@
 # Use a imagem oficial do Jenkins
-FROM jenkins/jenkins:lts
+FROM python:3.9-slim
 
 USER root
 
