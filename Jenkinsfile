@@ -126,6 +126,32 @@
 pipeline {
     agent any
 
+
+node {
+        stage('Preparing VirtualEnv') {
+            if (!fileExists('.env')) {
+            echo 'Creating virtualenv...'
+            sh 'virtualenv --no-site-packages .env'
+            }
+            sh '. .env/bin/activate'
+            if (fileExists('requirements.txt')) {
+            sh '''
+            . .env/bin/activate
+            pip install -r requirements.txt
+            '''
+            }
+            sh '''
+            . .env/bin/activate
+            pip install -r requirements.txt
+            '''
+        }
+        stage('Unittests') {
+            sh '''
+            . .env/bin/activate
+            ./manage.py test --noinput
+            '''
+        }
+    }
     stages {
         stage('Build') {
             steps {
