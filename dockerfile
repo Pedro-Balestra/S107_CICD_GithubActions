@@ -45,7 +45,7 @@ FROM jenkins/jenkins:latest
 
 USER root
 
-RUN apt-get update && apt-get install -y python3 && python -m ensurepip
+RUN apk update && apk install -y python3 && python -m ensurepip
 
 #Use apk to add python3 and then start bootstrapping pip
         #I needed python&pip for ansible, which itself needs some more stuff.
@@ -55,7 +55,7 @@ RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
         if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
         rm -r /root/.cache 
 
-RUN apt-get install -y pip install requirements.txt
+RUN apk install -y pip install requirements.txt
 # RUN apk add pkgconf #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
 # RUN apk add build-base #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
 # RUN apk add python3-dev #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
