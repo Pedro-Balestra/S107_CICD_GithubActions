@@ -1,5 +1,5 @@
 # Use the official Jenkins base image
-FROM jenkins/jenkins:latest
+FROM jenkins/jenkins:lTS-jdk11
  
 # Switch to the root user to install additional software
 # USER root
