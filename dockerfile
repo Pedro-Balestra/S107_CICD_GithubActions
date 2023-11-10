@@ -1,16 +1,17 @@
 # Use a imagem oficial do Jenkins
 FROM jenkins/jenkins:latet
 
-# Mude para o usuário root para instalar o Python e o pip
 USER root
 
 # Instale o Python e o pip
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip
+    apt-get install -y software-properties-common && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get update && \
+    apt-get install -y python3.8 python3-pip
 
 # Mude de volta para o usuário jenkins
 USER jenkins
-
 
 
 
