@@ -67,8 +67,8 @@ pipeline {
                 //sh 'apt-get install -y python3 python3-pip'
                 //sh "python3 --version"
                 sh "pip --version"
-                sh "pip install -r requirements.txt"
-                //archiveArtifacts '/app'
+                // sh "pip install -r requirements.txt"
+                // archiveArtifacts '/app'
             }
         }
 
