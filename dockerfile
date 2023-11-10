@@ -1,16 +1,26 @@
 
 # Use a imagem oficial do Jenkins
-# Use the official Jenkins base image
-FROM jenkins/jenkins:latest
- 
-# Switch to the root user to install additional software
+FROM jenkins/jenkins:lts
+
+# Mude para o usuário root para instalar o Python e o pip
 USER root
- 
-# Install Python and Pip
+
+# Instale o Python e o pip
 RUN apt-get update && \
     apt-get install -y python3 python3-pip
- 
-# Switch back to the Jenkins user
+
+# Defina as variáveis de ambiente para o Python e o pip
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PATH="/root/.local/bin:${PATH}"
+
+# Copie o arquivo requirements.txt para o container
+COPY requirements.txt .
+
+# Instale as dependências do Python usando o pip
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Mude de volta para o usuário jenkins
 USER jenkins
 
 
