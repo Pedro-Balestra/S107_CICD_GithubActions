@@ -86,6 +86,43 @@
 //     }
 // }
 
+// pipeline {
+//     agent any
+
+//     stages {
+//         stage('Build') {
+//             steps {
+//                 // echo 'Criando venv Python...'
+//                 sh 'python -m venv venv'
+//                 echo 'Verificando a instalação do Python...'
+//                 sh 'python --version'
+//                 //echo 'Criando pasta de artefatos para os testes...'
+//                 //sh 'mkdir artefatos'
+//             }
+//         }
+
+//         stage('Tests') {
+//             steps {
+//                 echo 'Rodando o arquivo test_carrinhoCompra.py...'
+//                 sh 'python3 test_carrinhoCompra.py'
+//             }
+//         }
+
+//         stage('Notifications') {
+//             steps {
+//                 echo 'Rodando o arquivo jenkins.sh dentro da pasta scripts...'
+//                 sh 'bash scripts/jenkins.sh'
+//             }
+//         }
+//     }
+
+//     post {
+//         success {
+//             echo 'Os testes estão okay!'
+//         }
+//     }
+// }
+
 pipeline {
     agent any
 
@@ -93,9 +130,9 @@ pipeline {
         stage('Build') {
             steps {
                 // echo 'Criando venv Python...'
-                sh 'python -m venv venv'
+                sh 'python3 -m venv venv'
                 echo 'Verificando a instalação do Python...'
-                sh 'python --version'
+                sh 'python3 --version'
                 //echo 'Criando pasta de artefatos para os testes...'
                 //sh 'mkdir artefatos'
             }
@@ -122,3 +159,4 @@ pipeline {
         }
     }
 }
+

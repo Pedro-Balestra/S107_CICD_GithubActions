@@ -1,5 +1,23 @@
+# Use a imagem oficial do Jenkins
+FROM jenkins/jenkins:lts
+
+# Mude para o usuário root para instalar o Python e o pip
+USER root
+
+# Instale o Python e o pip
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip
+
+# Mude de volta para o usuário jenkins
+USER jenkins
+
+
+
+
+
+
 # Use the official Jenkins base image
-FROM jenkins/jenkins:lTS-jdk11
+# FROM jenkins/jenkins:latest
  
 # Switch to the root user to install additional software
 # USER root
@@ -43,25 +61,25 @@ FROM jenkins/jenkins:lTS-jdk11
 
 
 
-USER root
+# USER root
 
-RUN apk update && apk install -y python3 && python -m ensurepip
+# RUN apk update && apk install -y python3 && python -m ensurepip
 
 #Use apk to add python3 and then start bootstrapping pip
         #I needed python&pip for ansible, which itself needs some more stuff.
 
 #To have a clean environment with the typical aliases
-RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-        if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-        rm -r /root/.cache 
+# RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+#         if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+#         rm -r /root/.cache 
 
-RUN apk install -y pip install requirements.txt
+# RUN apk install -y pip install requirements.txt
 # RUN apk add pkgconf #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
 # RUN apk add build-base #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
 # RUN apk add python3-dev #gives: /usr/glibc-compat/sbin/ldconfig: /usr/glibc-compat/lib/ld-linux-x86-64.so.2 is not a symbolic link
 
 #change back to user jenkins
-USER  jenkins
+# USER  jenkins
 
 # Use a imagem base dmantissoftware/jenkins-python3:latest
 # FROM dmantissoftware/jenkins-python3:latest
