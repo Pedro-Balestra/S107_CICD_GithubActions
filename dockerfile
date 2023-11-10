@@ -1,5 +1,5 @@
 # Use a imagem oficial do Jenkins
-FROM jenkins/jenkins:latet
+FROM jenkins/jenkins:lts
 
 USER root
 
