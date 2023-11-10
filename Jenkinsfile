@@ -63,7 +63,7 @@ pipeline {
                 // sh 'python3 -m ensurepip'
                 //sh'python3 -m ensurepip --upgrade'
                 // sh 'python setup.py sdist bdist_whee'
-                sh 'python3 --version'
+                sh 'python --version'
                 //sh 'apt-get install -y python3 python3-pip'
                 //sh "python3 --version"
                 sh "pip --version"
