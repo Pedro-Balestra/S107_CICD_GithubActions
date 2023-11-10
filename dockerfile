@@ -1,36 +1,45 @@
-
-FROM jenkins/jenkins:lts-jdk11
-
-# Defina o usuário como root para executar comandos de instalação
+# Use the official Jenkins base image
+FROM jenkins/jenkins:latest
+ 
+# Switch to the root user to install additional software
 USER root
-
-# Atualize o sistema e instale as dependências
-RUN apt-get update && apt-get install -y wget python3 python3-pip
-
-# Atualize o pip
-RUN python3 -m pip install --upgrade pip
-
-# Define uma variável de ambiente MAVEN_HOME que aponta para o local do Maven
-ENV MAVEN_HOME /opt/maven
-
-# Baixe e instale o Apache Maven
-RUN wget --no-verbose -O /tmp/apache-maven-3.9.1-bin.tar.gz https://dlcdn.apache.org/maven/maven-3/3.9.1/binaries/apache-maven-3.9.1-bin.tar.gz
-RUN tar xzf /tmp/apache-maven-3.9.1-bin.tar.gz -C /opt/
-RUN ln -s /opt/apache-maven-3.9.1 /opt/maven
-RUN ln -s /opt/maven/bin/mvn /usr/local/bin
-RUN rm -f /tmp/apache-maven-3.9.1-bin.tar.gz
-
-# Chown: altera as permissões da pasta Maven para o usuário Jenkins
-RUN chown -R jenkins:jenkins /opt/maven
-
-# Instala o utilitário 'mailutils'
-RUN apt-get install -y mailutils
-
-# Limpe arquivos baixados com apt-get
-RUN apt-get clean
-
-# Volte a usar o usuário Jenkins
+ 
+# Install Python and Pip
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip
+ 
+# Switch back to the Jenkins user
 USER jenkins
+
+
+
+
+
+# # Use a imagem oficial do Jenkins
+# FROM jenkins/jenkins:lts
+
+# # Mude para o usuário root para instalar o Python e o pip
+# USER root
+
+# # RUN apt-get python3 -m venv venv
+# # Instale o Python e o pip
+# RUN apt-get update && \
+#     apt-get install -y python3 python3-pip
+
+# # Defina as variáveis de ambiente para o Python e o pip
+# ENV PYTHONUNBUFFERED=1
+# ENV PYTHONDONTWRITEBYTECODE=1
+# ENV PATH="/root/.local/bin:${PATH}"
+
+# # Copie o arquivo requirements.txt para o container
+# COPY requirements.txt .
+
+# # Instale as dependências do Python usando o pip
+# RUN pip3 install --no-cache-dir -r requirements.txt
+
+# # Mude de volta para o usuário jenkins
+# USER jenkins
+
 
 
 
