@@ -5,7 +5,7 @@ FROM jenkins/jenkins:latest
 USER root
  
 # Install Python and Pip
-RUN apt-get update && apt-get install -y python3 python3-pip
+RUN apt-get update && apt-get install -y python3 python-pip
  
 # Switch back to the Jenkins user
 USER jenkins
