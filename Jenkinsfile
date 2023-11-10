@@ -130,7 +130,7 @@ pipeline {
         stage('Build') {
             steps {
                 // echo 'Criando venv Python...'
-                sh 'python3 -m venv venv'
+                //sh 'python3 -m venv venv'
                 echo 'Verificando a instalação do Python...'
                 sh 'python3 --version'
                 //echo 'Criando pasta de artefatos para os testes...'
