@@ -5,6 +5,7 @@ FROM jenkins/jenkins:lts
 # Mude para o usuário root para instalar o Python e o pip
 USER root
 
+RUN apt-get python3 -m venv venv
 # Instale o Python e o pip
 RUN apt-get update && \
     apt-get install -y python3 python3-pip
