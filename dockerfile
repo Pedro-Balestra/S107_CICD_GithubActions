@@ -1,23 +1,17 @@
 # Use a imagem base Jenkins LTS com JDK 11
+# Use a imagem base Jenkins LTS com JDK 11
 FROM jenkins/jenkins:lts-jdk11
 
 # Defina o usuário como root para executar comandos de instalação
 USER root
 
 # Atualize o sistema e instale as dependências
-RUN apt-get update && apt-get install -y wget
-
-# Instale o Python 3
-RUN apt-get install -y python3
+RUN apt-get update && apt-get install -y wget python3 python3-pip
 
 # Atualize o pip
 RUN python3 -m pip install --upgrade pip
 
-# Define variáveis de ambiente para o Python
-ENV PYTHON_HOME /usr/bin
-ENV PATH $PYTHON_HOME:$PATH
-
-# Defina uma variável de ambiente MAVEN_HOME que aponta para o local do Maven
+# Define uma variável de ambiente MAVEN_HOME que aponta para o local do Maven
 ENV MAVEN_HOME /opt/maven
 
 # Baixe e instale o Apache Maven
@@ -38,6 +32,7 @@ RUN apt-get clean
 
 # Volte a usar o usuário Jenkins
 USER jenkins
+
 
 
 
