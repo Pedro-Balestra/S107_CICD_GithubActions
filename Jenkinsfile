@@ -93,7 +93,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Verificando a instalação do Python...'
-                sh 'python --version'
+                sh 'python3 --version'
                 echo 'Criando venv Python...'
                 sh 'python -m venv venv'
                 echo 'Criando pasta de artefatos para os testes...'
@@ -104,7 +104,7 @@ pipeline {
         stage('Tests') {
             steps {
                 echo 'Rodando o arquivo test_carrinhoCompra.py...'
-                sh 'python test_carrinhoCompra.py'
+                sh 'python3 test_carrinhoCompra.py'
             }
         }
 
