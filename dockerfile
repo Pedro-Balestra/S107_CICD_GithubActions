@@ -4,11 +4,7 @@ FROM python:3.9-slim
 USER root
 
 # Instale o Python e o pip
-RUN apt-get update && \
-    apt-get install -y software-properties-common && \
-    add-apt-repository ppa:deadsnakes/ppa && \
-    apt-get update && \
-    apt-get install -y python3.8 python3-pip
+RUN apt-get update && apt-get install -y python3.9 python3-pip
 
 # Mude de volta para o usuário jenkins
 USER jenkins
