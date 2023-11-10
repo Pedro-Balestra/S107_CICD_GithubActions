@@ -1,29 +1,23 @@
 # Use a imagem oficial do Jenkins
-FROM python:3.9-slim
 
+
+
+
+
+
+
+
+#Use the official Jenkins base image
+FROM jenkins/jenkins:lts-jdk11
+ 
+#Switch to the root user to install additional software
 USER root
-
-# Instale o Python e o pip
-RUN apt-get update && apt-get install -y python3.9 python3-pip
-
-# Mude de volta para o usuário jenkins
+ 
+# Install Python and Pip
+RUN apt-get update && apt-get install -y python3 python3-pip
+ 
+# Switch back to the Jenkins user
 USER jenkins
-
-
-
-
-
-# Use the official Jenkins base image
-# FROM jenkins/jenkins:latest
- 
-# Switch to the root user to install additional software
-# USER root
- 
-# # Install Python and Pip
-# RUN apt-get update && apt-get install -y python3 python-pip
- 
-# # Switch back to the Jenkins user
-# USER jenkins
 
 
 
