@@ -127,62 +127,73 @@ pipeline {
     agent any
 
 
-node {
-        stage('Preparing VirtualEnv') {
-            if (!fileExists('.env')) {
-            echo 'Creating virtualenv...'
-            sh 'virtualenv --no-site-packages .env'
-            }
-            sh '. .env/bin/activate'
-            if (fileExists('requirements.txt')) {
-            sh '''
-            . .env/bin/activate
-            pip install -r requirements.txt
-            '''
-            }
-            sh '''
-            . .env/bin/activate
-            pip install -r requirements.txt
-            '''
-        }
-        stage('Unittests') {
-            sh '''
-            . .env/bin/activate
-            ./manage.py test --noinput
-            '''
-        }
-    }
+
+//     stages {
+//         stage('Build') {
+//             steps {
+//                 // echo 'Criando venv Python...'
+//                 sh 'python3 -m venv venv'
+//                 echo 'Verificando a instalação do Python...'
+//                 sh 'python3 --version'
+//                 //echo 'Criando pasta de artefatos para os testes...'
+//                 //sh 'mkdir artefatos'
+//             }
+//         }
+
+//         stage('Tests') {
+//             steps {
+//                 echo 'Rodando o arquivo test_carrinhoCompra.py...'
+//                 sh 'python3 test_carrinhoCompra.py'
+//             }
+//         }
+
+//         stage('Notifications') {
+//             steps {
+//                 echo 'Rodando o arquivo jenkins.sh dentro da pasta scripts...'
+//                 sh 'bash scripts/jenkins.sh'
+//             }
+//         }
+//     }
+
+//     post {
+//         success {
+//             echo 'Os testes estão okay!'
+//         }
+//     }
+// }
+
+pipeline {
+    agent any
+
     stages {
         stage('Build') {
             steps {
-                // echo 'Criando venv Python...'
-                sh 'python3 -m venv venv'
-                echo 'Verificando a instalação do Python...'
-                sh 'python3 --version'
-                //echo 'Criando pasta de artefatos para os testes...'
-                //sh 'mkdir artefatos'
+                sh '''
+                python3 -m venv venv
+                . venv/bin/activate
+                pip install --upgrade pip
+                pip install -r requirements.txt
+                python -V
+                pip -V
+                '''
             }
         }
 
-        stage('Tests') {
+        stage('Test') {
             steps {
-                echo 'Rodando o arquivo test_carrinhoCompra.py...'
-                sh 'python3 test_carrinhoCompra.py'
-            }
-        }
-
-        stage('Notifications') {
-            steps {
-                echo 'Rodando o arquivo jenkins.sh dentro da pasta scripts...'
-                sh 'bash scripts/jenkins.sh'
+                sh '''
+                . venv/bin/activate
+                python teste_carrinhoCompras.py
+                '''
             }
         }
     }
 
     post {
-        success {
-            echo 'Os testes estão okay!'
+        always {
+            mail to: 'lucas.resende@ges.inatel.br',
+                 subject: "Resultado dos testes: ${currentBuild.fullDisplayName}",
+                 body: "Verifique o console de saída em ${env.BUILD_URL} para detalhes."
         }
     }
 }
-

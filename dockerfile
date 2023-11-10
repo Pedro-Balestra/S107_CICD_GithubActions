@@ -1,23 +1,35 @@
-# Use a imagem oficial do Jenkins
-
-
-
-
-
-
-
-
-#Use the official Jenkins base image
+# Use a imagem base do Jenkins com JDK 11
 FROM jenkins/jenkins:lts-jdk11
- 
-#Switch to the root user to install additional software
+
+# Defina variáveis de ambiente
+ENV PYTHONUNBUFFERED=1
+
+# Execute comandos para instalar o Python 3 e o pip
 USER root
- 
-# Install Python and Pip
-RUN apt-get update && apt-get install -y python3 python3-pip
- 
-# Switch back to the Jenkins user
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip && \
+    rm -rf /var/lib/apt/lists/*
+
+# Volte para o usuário jenkins
 USER jenkins
+
+
+
+
+
+
+
+# #Use the official Jenkins base image
+# FROM jenkins/jenkins:lts-jdk11
+ 
+# #Switch to the root user to install additional software
+# USER root
+ 
+# # Install Python and Pip
+# RUN apt-get update && apt-get install -y python3 python3-pip
+ 
+# # Switch back to the Jenkins user
+# USER jenkins
 
 
 
