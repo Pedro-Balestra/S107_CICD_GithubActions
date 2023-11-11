@@ -205,11 +205,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh '''
-               
-                python3 --version
-                pip3 --version
-                '''
+                sh 'python3 --version'
+                sh 'pip3 --version'
+                
             }
         }
 
