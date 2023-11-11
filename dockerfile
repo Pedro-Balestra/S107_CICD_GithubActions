@@ -6,11 +6,10 @@ FROM jenkins/jenkins:lts-jdk11
 
 # Execute comandos para instalar o Python 3 e o pip
 USER root
-RUN apt-get install -y wget
+RUN apt-get update && \ 
+        apt-get install -y python3 python3-pip
+RUN apt install -y python3-virtualenv
 
-RUN wget --no-verbose -O /tmp/Python-3.9.1.tgz https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz
-
-RUN apk update && apk install -y python3 python3-pip 
 
 # Volte para o usuário jenkins
 USER jenkins

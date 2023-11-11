@@ -206,12 +206,9 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                python3 -m venv venv
-                . venv/bin/activate
-                pip install --upgrade pip
-                pip install -r requirements.txt
-                python -V
-                pip -V
+               
+                python3 --version
+                pip3 --version
                 '''
             }
         }
