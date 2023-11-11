@@ -1,5 +1,5 @@
 # Use a imagem base do Jenkins com JDK 11
-FROM jenkins/jenkins:latest
+FROM jenkins/jenkins:lts-jdk11
 
 # Defina variáveis de ambiente
 #ENV PYTHONUNBUFFERED=1
@@ -8,7 +8,7 @@ FROM jenkins/jenkins:latest
 USER root
 RUN apt-get update && \ 
         apt-get install -y python3 python3-pip
-RUN apt install -y python3-virtualenv
+RUN apt install -y python3-virtualenvks
 
 
 # Volte para o usuário jenkins
