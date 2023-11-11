@@ -1,5 +1,5 @@
 # Use a imagem base do Jenkins com JDK 11
-FROM jenkins/jenkins:lts-jdk11
+FROM jenkins/jenkins:latest
 
 # Defina variáveis de ambiente
 #ENV PYTHONUNBUFFERED=1
